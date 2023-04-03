@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HariRam Hit game</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background-color: #090101;
+        }
+        html{
+            cursor: url("bat.png"), pointer;
+        }
+        .navbar{
+            display: flex;
+            background-color: rgb(40, 222, 235);
+            border-radius: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .score{
+            display: inline-flex;
+        }
+        .score span{
+            margin-right: 10px;
+            color: rgb(24, 6, 15);
+        }
+        #sc{
+            border: 3px solid rgb(128, 210, 230);
+            width: 10vw;
+            text-align: center;
+        }
+        #tt{
+            border: 3px solid rgb(128, 210, 230);
+            width: 30vw;
+            text-align: center;
+        }
+      #flies{
+            height: 100%;
+            width: 100%;
+            background-color: #ff2a00;
+        }
+        #flies img{
+            width: 10vw;
+            height: 15vh;
+            animation: mymove 2s infinite;
+        }
+
+
+
+        @keyframes  mymove {
+        from {top: 100px;}
+        to {left: 700px;}
+         }
+
+            @keyframes myNEWmove {
+              from {top: 400px;}
+             to {top: 700px; }
+             }
+    </style>
+    
+</head>
+<body onload="generateFlies()">
+    <div class="main">
+        <div class="navbar">
+            <div class="score">
+                <span> <h1 style="border: none;"> Score: </h1></span>
+                <div id="sc">
+                    <h1 id="sccc">0</h1>
+                </div>
+            </div>
+            <div class="timer">
+                <div id="tt">
+                    <h1 id="time">0:30</h1>
+                </div>
+            </div>
+        </div>
+        <div id="flies"></div>
+    </div>
+    <script>
+        let score=0;
+      var h=window.screen.height;
+      var w=window.screen.width;
+      var randW = Math.floor(Math.random() * w);
+      var randH = Math.floor(Math.random() * h);  
+      var rW = Math.floor(Math.random() * w);
+      var rH = Math.floor(Math.random() * h); 
+      function generateFlies(){
+          setInterval(generate, 1500);
+          setInterval(timer,1000);
+      }
+      let time=30;
+      let min, sec;
+      function timer(){
+          min=Math.floor(time/60);
+          sec=time%60;
+          document.getElementById("time").innerHTML=`${min}:${sec}`;
+          time-=1;
+          if(time==-2){
+              window.alert("Game over😁 Score is -> "+score)
+              score=0;
+          }
+      }
+      function generate(){
+          const imgs = document.createElement("img");
+          imgs.src="./svg1.png"
+          imgs.style.position = 'absolute';
+          imgs.nodeValue
+          imgs.addEventListener("click",destroy,false);
+          const appender=document.querySelector("#flies");
+          appender.appendChild(imgs)
+          setInterval(move(imgs), 1000);
+      }
+      function move(img){
+
+        
+var step=1;
+  var rec=img.getBoundingClientRect();
+  img.style.top=`${Math.floor(Math.random() * (h*2)/1.4)+ rec.top}px`;
+  img.style.left=`${Math.floor(Math.random() * (w*4)/ 1.5)+rec.left}px`;
+  
+  img.style.bottom=`${rec.bottom+ Math.floor(Math.random() * (h*2)/ 1.1) }px`;
+  img.style.right=`${rec.left+ Math.floor(Math.random() * (w*3)/ 1.9) }px`;
+
+  
+    img.style.animationName="mymove";
+   
+  
+
+  
+}
+      function destroy(){
+          let data=this.getBoundingClientRect();
+          let spat = document.createElement("img");
+          spat.src = "./spat1.png"
+          spat.style.position = 'absolute';
+         
+          spat.style.left = `${data.left}px`;
+          spat.style.top = `${data.top}px`;
+          this.remove();
+          let scoreTag=document.getElementById("sccc");
+          ++score;
+          scoreTag.innerHTML=`${score}`;
+          setTimeout(function () {
+              spat.remove();
+          }, 1000);
+      }
+      
+   
+
+
+
+    </script>
+  </body>
+  </html>
